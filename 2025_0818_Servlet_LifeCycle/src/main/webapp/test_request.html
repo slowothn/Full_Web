@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function send1(f){
+
+		/*
+			form attribute
+			- method :  GET or POST
+			- action :  전송대상
+			
+			form method
+			- submit() : form요소정보를 지정된 action으로 전송
+			- reset()  : form요소를 초기화
+		*/
+		
+		//전송방식
+		f.method = "GET";
+		// GET 방식 : QueryString방식 (주소창에 아이디와 비밀번호 노출됨)
+		//lifecycle.do?id=hong&pwd=1234
+		//			  ?name=value&name=value
+		//			  ?query
+		//			단점 ) 전송 용량의 제한이 있다(4096byte (4K)) : 브라우저마다 상이한 용량 제한
+		//전송대상
+		//f.action = "http://localhost:8080/2025_0818_Servlet_LifeCycle/lifecycle.do"; //절대주소
+		//현재 실행되는 파일 위치와 호출할 survlet위치가 동일하면 경로 생략 가능
+		f.action = "lifecycle.do";
+		
+		//지정된 action으로 전송
+		f.submit();
+	}//end : send1()
+	
+	function send2(f){
+
+		/*
+			form attribute
+			- method :  GET or POST
+			- action :  전송대상
+			
+			form method
+			- submit() : form요소정보를 지정된 action으로 전송
+			- reset()  : form요소를 초기화
+		*/
+		
+		//전송방식
+		f.method = "POST";
+		// POST 방식 : 요청헤더(body) 숨겨서 전송(get에 비해 보안성이 좋다)
+		//				파일업로드시에는 무조건 POST방식 이용
+		//				전송 용량의 제한이 없다 
+		//				단점) GET에 비해서 전송속도가 느리다
+		//		개발자모드에서 payload에서 암호를 볼 수 있음(실제 사이트에서는 해당 페이지를 사용하지 않고 다른 페이지로 넘겨서 확인하지 않도록 함)
+			
+		//전송대상
+		//f.action = "http://localhost:8080/2025_0818_Servlet_LifeCycle/lifecycle.do"; //절대주소
+		//현재 실행되는 파일 위치와 호출할 survlet위치가 동일하면 경로 생략 가능
+		f.action = "lifecycle.do";
+		
+		//지정된 action으로 전송
+		f.submit();
+	}//end : send2()
+
+</script>
+</head>
+<body>
+
+<form>
+	아이디: <input name="id" value="hong"><br>
+	비밀번호: <input type="password" name="pwd" value="1234"><br>
+	<input type="button" value="GET 요청" onclick="send1(this.form);">
+	<input type="button" value="POST 요청" onclick="send2(this.form);">
+
+</form>
+
+</body>
+</html>

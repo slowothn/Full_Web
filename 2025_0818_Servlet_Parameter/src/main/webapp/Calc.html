@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	
+	const regular_number = /^[0-9]{1,4}$/;
+	
+<!-- client에서 유효성 검사를 완료하고 submit 해야함 -->
+	function send(f){
+		//숫자 검증
+		let su1 = f.su1.value;		//su1의 값
+		let su2 = f.su2.value;		//su2의 값
+		
+		if(regular_number.test(su1)==false){
+			alert("0~9999사이의 숫자만 입력하세요");
+			f.su1.value = "";	//값 지우기
+			f.su1.focus();		//입력 포커스 지정
+			return;
+		}
+		if(regular_number.test(su2)==false){
+			alert("0~9999사이의 숫자만 입력하세요");
+			f.su2.value = "";	//값 지우기
+			f.su2.focus();		//입력 포커스 지정
+			return;
+		}
+		
+		//calc.do => CalcAction으로 전송
+		f.submit();
+	
+	}
+</script>
+</head>
+<body>
+<form action="calc.do">
+	수1: <input name="su1"><br>
+	수2: <input name="su2"><br>
+	<br>
+	<!-- this.form해석 : this(= 계산해줘 버튼)를 소유하고 있는 form -->
+	<input type="button" value="계산해줘" onclick="send(this.form);">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+#main-menu{
+	list-style: none;
+	
+	
+	
+}
+
+#main-menu > li{
+	display: inline-block;
+}
+
+#main-menu > li > a{
+	/* size 조절 위해서 블록요소로 변경 */
+	display: block;
+	
+	text-decoration: none;
+	
+	width: 120px;
+	
+	margin-left: 150px;
+	text-align: center;
+	margin-top: 10px;
+	
+	font-size: 22px;
+	font-weight: bold;
+	
+	color: #0080c0;
+	
+	text-shadow: 1px 1px 1px black;
+	
+}
+
+#main-menu > li > a:hover{
+	color :tomato;
+}
