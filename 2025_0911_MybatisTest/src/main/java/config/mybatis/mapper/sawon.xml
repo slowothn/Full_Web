@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sawon">
+
+ <!-- 전체목록조회
+ 		resultType = 포장할 타입  > vo패키지의 SawonVo타입으로 포장
+ 		select는 꼭 resultType을 적어야함!
+  -->
+ <select id="sawon_list" resultType="vo.SawonVo">
+ 	select * from sawon
+ </select>
+ 
+ <!-- 단일 parameter가 넘어오면 parameter명은 명명법만 지키면 됨 
+ / parameterType: 자료형 타입 -->
+ <select id="sawon_list_deptno" resultType="vo.SawonVo" parameterType="int">
+	select * from sawon where deptno=#{deptno}
+ </select>
+ 
+ <!-- 여러개의 parameter를 Map(java.util.Map)으로 전달 -->
+ <select id="sawon_list_condition" resultType="vo.SawonVo" parameterType="Map">
+ 	select * from sawon
+ 	<!-- 동적 query (Dynamic Query) / trim으로 특정 문자 제거 가능 -->
+ 	<!-- if문이 둘다 충족하지 않으면 where 안 붙음, 하나만 충족되면 and를 trim하기 -->
+ 	<trim prefix="where" prefixOverrides="and">
+ 		<if test="deptno!=null">
+ 			deptno = #{ deptno }
+ 		</if>
+ 		<if test="sajob!=null">
+ 			and sajob = #{ sajob }
+ 		</if>
+ 		<if test="sasex!=null">
+ 			and sasex = #{ sasex }
+ 		</if>
+ 		<if test="year10!=null">
+ 				<!-- sahire의 10년단위 시작년도로 변환
+ 				sahire을 문자열 4자리 년도로 변환
+ 				substr로 문자열 편집함 (ex.'1997' -> '199')
+ 				concat으로 문자열 합성함 (ex.'199' + '0' -> '1990')
+ 				 -->
+ 			and concat(substr(to_char(sahire,'YYYY'),1,3),'0') = #{ year10 }
+ 		</if>
+ 	</trim>
+ </select>
+ 
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

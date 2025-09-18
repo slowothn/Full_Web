@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- Bootstrap 3.x -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+<script type="text/javascript">
+/* 위도/경도 - 현재 자신의 위치정보(GPS좌표) */
+	let latitude = 37.480972; 	
+	let longitude = 126.952174;
+	
+	//jQuery 초기화 (현재 브라우저에 컨트롤 배치 완료되면)
+	$(document).ready(function(){
+		//브라우저가 실행되는 위치정보를 구함
+		//제한사항 : http://localhost 또는 https://IP 또는 hostname
+		navigator.geolocation.getCurrentPosition((position) => {
+			latitude = position.coords.latitude;
+			longitude = position.coords.longitude;
+		  
+		  	console.log("lat",latitude);
+		  	console.log("lon",longitude);
+		});
+		
+		//Arrow function(Lamda식): 함축식
+		//navigator.geolocation.getCurrentPosition(function(position){});
+		//navigator.geolocation.getCurrentPosition((position)=>{});
+	});
+	
+	
+	function find(){
+		let query = $("#query").val().trim();
+		let page  = $("#page").val();
+		let size  = $("#size").val();
+		let radius= $("#radius").val();
+		
+		//jquery 주의사항 : # 누락 주의, 자바스크립트 괄호 누락주의
+		if(query==""){
+			alert("검색어를 입력하세요");
+			$("#query").val("");
+			$("#query").focus();
+			return;
+		}
+		
+		//Ajax로 요청
+		$.ajax({
+			  url	:	"local/list.do", // LocalListAction
+			  data	:	{
+				            "query"		: query, 
+				            "page"		: page,
+				            "size"		: size,
+				            "radius"	: radius,
+				            "latitude"	: latitude,
+				            "longitude"	: longitude
+				        },
+			  success:	function(res_data){
+				  
+				  $("#disp").html(res_data);
+				  
+			  },
+			  error	 :	function(err){
+				  alert(err.responseText);
+			  }
+		  });
+		
+	}
+
+</script>
+
+<style type="text/css">
+	#box{
+		width: 1000px;
+		margin: auto;
+		margin-top: 50px;
+	}
+</style>
+
+</head>
+<body>
+
+<form class="form-inline">
+	<div id="box">
+		<div style="text-align: center;">
+			검색어:<input class="form-control" id="query">
+				   <input class="btn btn-primary" type="button" value="검색" onclick="find();">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!-- 카카오는 페이지를 알아서 계산해줌 -->
+					페이지:<select class="form-control" id="page">
+		               <option value="1">1 페이지</option>
+		               <option value="2">2 페이지</option>
+		               <option value="3">3 페이지</option>
+		               <option value="4">4 페이지</option>
+		               <option value="5">5 페이지</option>
+		           </select>   
+	         &nbsp;&nbsp;&nbsp;&nbsp;
+	         페이지당게시물수:<select class="form-control" id="size">
+	                              <option value="5">5개 씩보기</option>  
+	                              <option value="10" selected="selected">10개 씩보기</option>  
+	                              <option value="15">15개 씩보기</option>  
+	                              <option value="20">20개 씩보기</option>  
+	                          </select>	
+	         &nbsp;&nbsp;&nbsp;&nbsp;
+	         검색반경:<select class="form-control" id="radius">
+	                      <option value="500">500m</option>
+	                      <option value="1000" selected="selected">1000m</option>
+	                      <option value="1500">1500m</option>
+	                      <option value="2000">2000m</option>
+	                  </select>
+		</div>
+		<hr>
+		<!-- 결과 -->
+		<div id="disp"></div>
+	</div>
+</form>
+
+</body>
+</html>
