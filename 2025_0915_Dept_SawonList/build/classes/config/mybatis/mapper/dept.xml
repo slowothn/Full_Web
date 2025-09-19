@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dept">
+	
+ <resultMap type="vo.DeptVo" id="dept_map">
+ 	<!-- DB Column 명과 VO 속성명이 동일하면 생략 가능 -->
+	<result property="deptno" column="deptno"/> 
+	<!-- ArrayList : sa_list 설정
+					 column : 전달인자(parameter)
+					 	2개이상 전달인자 형식 : {변수=값, 변수=값}
+					 select : 수행할 mapper_id
+	 -->
+	<collection property="sa_list"
+				column="deptno=deptno" 
+				select="sawon.sawon_list_deptno"/>
+ </resultMap>	
+	
+	
+<!-- 전체 조회
+	resultMap : 포장할 레코드(row)를 지정된 dept_map형식으로 포장
+ -->
+ <select id="dept_list" resultMap="dept_map">
+ 	select deptno,dname,loc from dept
+ </select>
+  
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
